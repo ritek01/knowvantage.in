@@ -1,34 +1,34 @@
-const seconds = document.querySelector(".seconds .number"),
-  minutes = document.querySelector(".minutes .number"),
-  hours = document.querySelector(".hours .number"),
-  days = document.querySelector(".days .number");
+const seconds = document.querySelector(".seconds .number");
+const minutes = document.querySelector(".minutes .number");
+const hours = document.querySelector(".hours .number");
+const days = document.querySelector(".days .number");
 
-let secValue = 11,
-  minValue = 2,
-  hourValue = 1,
-  dayValue = 10;
+// Set your fixed end date here
+const END_DATE = new Date("2025-11-310T23:59:59").getTime();
 
-const timeFunction = setInterval(() => {
-  secValue--;
+const timer = setInterval(() => {
+  const now = new Date().getTime();
+  const distance = END_DATE - now;
 
-  if (secValue === 0) {
-    minValue--;
-    secValue = 60;
-  }
-  if (minValue === 0) {
-    hourValue--;
-    minValue = 60;
-  }
-  if (hourValue === 0) {
-    dayValue--;
-    hourValue = 24;
+  if (distance <= 0) {
+    clearInterval(timer);
+    seconds.textContent = "00";
+    minutes.textContent = "00";
+    hours.textContent = "00";
+    days.textContent = "00";
+    return;
   }
 
-  if (dayValue === 0) {
-    clearInterval(timeFunction);
-  }
-  seconds.textContent = secValue < 10 ? `0${secValue}` : secValue;
-  minutes.textContent = minValue < 10 ? `0${minValue}` : minValue;
-  hours.textContent = hourValue < 10 ? `0${hourValue}` : hourValue;
-  days.textContent = dayValue < 10 ? `0${dayValue}` : dayValue;
-}, 1000); //1000ms = 1s
+  const dayValue = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hourValue = Math.floor(
+    (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+  const minValue = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const secValue = Math.floor((distance % (1000 * 60)) / 1000);
+
+  days.textContent = dayValue < 10 ? "0" + dayValue : dayValue;
+  hours.textContent = hourValue < 10 ? "0" + hourValue : hourValue;
+  minutes.textContent = minValue < 10 ? "0" + minValue : minValue;
+  seconds.textContent = secValue < 10 ? "0" + secValue : secValue;
+
+}, 1000);
