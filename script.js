@@ -4,7 +4,7 @@ const hours = document.querySelector(".hours .number");
 const days = document.querySelector(".days .number");
 
 // Set your fixed end date here (valid date!)
-const END_DATE = new Date("2025-11-30T23:59:59").getTime();
+const END_DATE = new Date("2025-12-10T23:59:59").getTime();
 
 const timer = setInterval(() => {
   const now = new Date().getTime();
